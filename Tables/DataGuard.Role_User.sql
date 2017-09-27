@@ -1,0 +1,15 @@
+CREATE TABLE [DataGuard].[Role_User]
+(
+[UserID] [bigint] NOT NULL,
+[RoleID] [bigint] NOT NULL,
+[IsActive] [bit] NOT NULL CONSTRAINT [DF__User_Role__IsAct__2A4B4B5E] DEFAULT ('true'),
+[IsDefault] [bit] NOT NULL CONSTRAINT [DF__User_Role__IsDef__2B3F6F97] DEFAULT ('false'),
+[IsVisible] [bit] NOT NULL CONSTRAINT [DF__User_Role__IsVis__2C3393D0] DEFAULT ('true')
+) ON [PRIMARY]
+GO
+ALTER TABLE [DataGuard].[Role_User] ADD CONSTRAINT [PK_Role_User] PRIMARY KEY CLUSTERED  ([UserID], [RoleID]) ON [PRIMARY]
+GO
+ALTER TABLE [DataGuard].[Role_User] ADD CONSTRAINT [FK_USRL_ROLE] FOREIGN KEY ([RoleID]) REFERENCES [DataGuard].[Role] ([ID]) ON DELETE CASCADE ON UPDATE CASCADE
+GO
+ALTER TABLE [DataGuard].[Role_User] ADD CONSTRAINT [FK_USRL_USER] FOREIGN KEY ([UserID]) REFERENCES [DataGuard].[User] ([ID]) ON DELETE CASCADE ON UPDATE CASCADE
+GO

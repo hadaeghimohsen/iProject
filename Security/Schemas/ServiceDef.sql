@@ -1,0 +1,3 @@
+CREATE SCHEMA [ServiceDef]
+AUTHORIZATION [dbo]
+GO

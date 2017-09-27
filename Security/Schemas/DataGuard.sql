@@ -1,0 +1,3 @@
+CREATE SCHEMA [DataGuard]
+AUTHORIZATION [dbo]
+GO
