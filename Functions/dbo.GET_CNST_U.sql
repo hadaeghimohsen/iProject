@@ -43,6 +43,9 @@ BEGIN
    SELECT @CpuSrno = CPU_SRNO_DNRM
      FROM DataGuard.Gateway
     WHERE UPPER(COMP_NAME_DNRM) = UPPER(@HostName);
+
+   IF @CpuSrno IS NULL OR @CpuSrno = ''
+      SELECT @CpuSrno = @P_RqstXml.query('//Computer').value('(Computer/@cpu)[1]', 'VARCHAR(17)');
    
    -- 1395/12/21 * بررسی اینکه آیا کاربر شرکتی می باشد یا خیر
    SELECT @UserFactory = ISNULL(DFLT_FACT, '001')

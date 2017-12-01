@@ -34,7 +34,10 @@ BEGIN
    
    SELECT @CpuSrno = CPU_SRNO_DNRM
      FROM DataGuard.Gateway
-    WHERE UPPER(COMP_NAME_DNRM) = UPPER(@HostName);
+    WHERE UPPER(COMP_NAME_DNRM) LIKE UPPER(@HostName) + N'%';
+   
+   IF @CpuSrno IS NULL OR @CpuSrno = ''
+      SELECT @CpuSrno = @X.value('(ActiveSession/@cpusrno)[1]', 'VARCHAR(17)');
    
 	SELECT @UserDb = SUSER_NAME();
 	
