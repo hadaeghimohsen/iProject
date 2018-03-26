@@ -2,14 +2,17 @@ CREATE TABLE [Global].[Transaction_Log]
 (
 [POSD_PSID] [bigint] NULL,
 [SUB_SYS] [int] NULL,
+[GTWY_MAC_ADRS] [varchar] (17) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [RQID] [bigint] NULL,
 [RQTP_CODE] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[RWNO] [int] NULL,
 [TLID] [bigint] NOT NULL,
 [TRAN_DATE] [datetime] NULL,
 [AMNT] [bigint] NULL,
 [PAY_STAT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ISSU_DATE] [datetime] NULL,
 [RESP_CODE] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[RESP_DESC] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [TERM_NO] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [TRAN_NO] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CARD_NO] [varchar] (16) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -50,6 +53,7 @@ BEGIN
       UPDATE SET
          t.CRET_BY = UPPER(SUSER_NAME())
         ,t.CRET_DATE = GETDATE()
+        ,t.RWNO = (SELECT ISNULL(MAX(RWNO), 0) + 1 FROM Global.Transaction_Log TL WHERE S.POSD_PSID = Tl.POSD_PSID AND CAST(S.TRAN_DATE AS DATE) = CAST(TL.TRAN_DATE AS DATE))
         ,t.TLID = dbo.GetNewIdentity();
 
 END
@@ -84,6 +88,8 @@ BEGIN
 END
 GO
 ALTER TABLE [Global].[Transaction_Log] ADD CONSTRAINT [PK_Transaction_Log] PRIMARY KEY CLUSTERED  ([TLID]) ON [BLOB]
+GO
+ALTER TABLE [Global].[Transaction_Log] ADD CONSTRAINT [FK_TRAN_GTWY] FOREIGN KEY ([GTWY_MAC_ADRS]) REFERENCES [DataGuard].[Gateway] ([MAC_ADRS])
 GO
 ALTER TABLE [Global].[Transaction_Log] ADD CONSTRAINT [FK_TRAN_POSD] FOREIGN KEY ([POSD_PSID]) REFERENCES [Global].[Pos_Device] ([PSID])
 GO

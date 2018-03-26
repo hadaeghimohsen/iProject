@@ -17,6 +17,7 @@ CREATE TABLE [Global].[Pos_Device]
 [BAND_RATE] [int] NULL CONSTRAINT [DF_Pos_Subsystem_BAND_RATE] DEFAULT ((9600)),
 [PRNT_SALE] [nvarchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PRNT_CUST] [nvarchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[AUTO_COMM] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_DATE] [date] NULL,
 [MDFY_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -80,6 +81,8 @@ BEGIN
 END
 GO
 ALTER TABLE [Global].[Pos_Device] ADD CONSTRAINT [PK_POS] PRIMARY KEY CLUSTERED  ([PSID]) ON [BLOB]
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'اجرای اتوماتیک', 'SCHEMA', N'Global', 'TABLE', N'Pos_Device', 'COLUMN', N'AUTO_COMM'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'میزان باند ', 'SCHEMA', N'Global', 'TABLE', N'Pos_Device', 'COLUMN', N'BAND_RATE'
 GO
