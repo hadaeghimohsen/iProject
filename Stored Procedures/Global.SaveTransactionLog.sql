@@ -83,9 +83,9 @@ BEGIN
       BEGIN
          IF @Tlid IS NULL RAISERROR(N'شماره سابقه تراکنش مشخصی در سیستم ثبت نشده است، لطفا بررسی کنید', 16, 1);
          UPDATE Global.Transaction_Log
-            SET PAY_STAT = CASE @RespCode WHEN '00' THEN '002' ELSE '001' END
-               ,ISSU_DATE = CASE @RespCode WHEN '00' THEN GETDATE() ELSE NULL END
-               ,RESP_CODE = @RespCode
+            SET PAY_STAT = CASE WHEN dbo.PADSTR(@RespCode, 3) IN ('000', '100') THEN '002' ELSE '001' END
+               ,ISSU_DATE = CASE WHEN dbo.PADSTR(@RespCode, 3) IN ('000', '100') THEN GETDATE() ELSE NULL END
+               ,RESP_CODE = dbo.PADSTR(@RespCode, 3)
                ,RESP_DESC = @RespDesc
                ,CARD_NO = @CardNo
                ,TERM_NO = @TermNo
