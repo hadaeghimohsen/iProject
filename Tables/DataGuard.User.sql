@@ -36,11 +36,13 @@ CREATE TABLE [DataGuard].[User]
 [MAIL_SRVR_STAT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [MAIL_SRVR_PROF] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [MAIL_SRVR_ACNT] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[DFLT_USER_HELP_SRVR] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[REGN_LANG] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[RTL_STAT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_DATE] [datetime] NULL,
 [MDFY_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[MDFY_DATE] [datetime] NULL,
-[DFLT_USER_HELP_SRVR] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[MDFY_DATE] [datetime] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [BLOB]
 GO
 SET QUOTED_IDENTIFIER ON
@@ -133,6 +135,10 @@ GO
 EXEC sp_addextendedproperty N'MS_Description', N'Sql Server Mail Server Use', 'SCHEMA', N'DataGuard', 'TABLE', N'User', 'COLUMN', N'MAIL_SRVR_STAT'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'اطلاعات خصوصی کاربران در صفحه ورود مجدد قابل رویت باشد', 'SCHEMA', N'DataGuard', 'TABLE', N'User', 'COLUMN', N'PRVC_LOCK_SCRN_STAT'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'زبان محلی برای کاربر (فارسی، عربی، انگلیسی، ...)', 'SCHEMA', N'DataGuard', 'TABLE', N'User', 'COLUMN', N'REGN_LANG'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'قابلیت راست به چپ مورد استفاده قرار بگیرد.', 'SCHEMA', N'DataGuard', 'TABLE', N'User', 'COLUMN', N'RTL_STAT'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'آیا نام کاربری در فرم ورود قابل نمایش باشد', 'SCHEMA', N'DataGuard', 'TABLE', N'User', 'COLUMN', N'SHOW_LOGN_FORM'
 GO
