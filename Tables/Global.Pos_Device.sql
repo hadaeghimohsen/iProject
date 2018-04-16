@@ -18,6 +18,7 @@ CREATE TABLE [Global].[Pos_Device]
 [PRNT_SALE] [nvarchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PRNT_CUST] [nvarchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AUTO_COMM] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[GTWY_MAC_ADRS] [varchar] (17) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_DATE] [date] NULL,
 [MDFY_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -89,6 +90,8 @@ GO
 EXEC sp_addextendedproperty N'MS_Description', N'پورت سریال', 'SCHEMA', N'Global', 'TABLE', N'Pos_Device', 'COLUMN', N'COMM_PORT'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'اطلاعات دریافتی در مورد پرداخت هزینه از دستگاه ذخیره گردد', 'SCHEMA', N'Global', 'TABLE', N'Pos_Device', 'COLUMN', N'FILL_RSLT_DATA'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'سیستم متصل به دستگاه POS', 'SCHEMA', N'Global', 'TABLE', N'Pos_Device', 'COLUMN', N'GTWY_MAC_ADRS'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'IP', 'SCHEMA', N'Global', 'TABLE', N'Pos_Device', 'COLUMN', N'IP_ADRS'
 GO

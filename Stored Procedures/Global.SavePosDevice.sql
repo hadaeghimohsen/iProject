@@ -32,7 +32,8 @@ BEGIN
              ,@BandRate INT
              ,@PrntSale NVARCHAR(250)
              ,@PrntCust NVARCHAR(250)
-             ,@AutoComm VARCHAR(3);
+             ,@AutoComm VARCHAR(3)
+             ,@GtwyMacAdrs VARCHAR(17);
       
       SELECT @Psid = @X.query('Pos').value('(Pos/@psid)[1]', 'BIGINT')
             ,@BankType = @X.query('Pos').value('(Pos/@banktype)[1]', 'VARCHAR(3)')
@@ -48,14 +49,15 @@ BEGIN
             ,@BandRate = @X.query('Pos').value('(Pos/@bandrate)[1]', 'INT')
             ,@PrntSale = @X.query('Pos').value('(Pos/@prntsale)[1]', 'NVARCHAR(250)')
             ,@PrntCust = @X.query('Pos').value('(Pos/@prntcust)[1]', 'NVARCHAR(250)')
-            ,@AutoComm = @X.query('Pos').value('(Pos/@autocomm)[1]', 'VARCHAR(3)');
+            ,@AutoComm = @X.query('Pos').value('(Pos/@autocomm)[1]', 'VARCHAR(3)')
+            ,@GtwyMacAdrs = @X.query('Pos').value('(Pos/@gtwymacadrs)[1]', 'VARCHAR(17)');
       
       MERGE Global.Pos_Device T
       USING (SELECT @Psid AS PSID) S
       ON (T.PSID = S.PSID)
       WHEN NOT MATCHED THEN 
-         INSERT (PSID, BANK_TYPE, BNKB_CODE, BNKA_ACNT_NUMB, SHBA_CODE, POS_DESC, POS_STAT, POS_DFLT, SEND_AMNT_EDIT, SEND_DATA_ON_DEVC, FILL_RSLT_DATA, POS_CNCT_TYPE, IP_ADRS, COMM_PORT, BAND_RATE, PRNT_SALE, PRNT_CUST, AUTO_COMM)
-         VALUES (S.PSID, @BankType, @BnkbCode, @BnkaAcntNumb, @ShbaCode, @PosDesc, @PosStat, @PosDflt, '001', '002', '002', @PosCnctType, @IPAdrs, @CommPort, @BandRate, @PrntSale, @PrntCust, @AutoComm)
+         INSERT (PSID, BANK_TYPE, BNKB_CODE, BNKA_ACNT_NUMB, SHBA_CODE, POS_DESC, POS_STAT, POS_DFLT, SEND_AMNT_EDIT, SEND_DATA_ON_DEVC, FILL_RSLT_DATA, POS_CNCT_TYPE, IP_ADRS, COMM_PORT, BAND_RATE, PRNT_SALE, PRNT_CUST, AUTO_COMM, GTWY_MAC_ADRS)
+         VALUES (S.PSID, @BankType, @BnkbCode, @BnkaAcntNumb, @ShbaCode, @PosDesc, @PosStat, @PosDflt, '001', '002', '002', @PosCnctType, @IPAdrs, @CommPort, @BandRate, @PrntSale, @PrntCust, @AutoComm, @GtwyMacAdrs)
       WHEN MATCHED THEN
          UPDATE SET
             T.BANK_TYPE = @BankType
@@ -71,7 +73,8 @@ BEGIN
            ,T.BAND_RATE = @BandRate
            ,T.PRNT_SALE = @PrntSale
            ,T.PRNT_CUST = @PrntCust
-           ,T.AUTO_COMM = @AutoComm;
+           ,T.AUTO_COMM = @AutoComm
+           ,t.GTWY_MAC_ADRS = @GtwyMacAdrs;
       
    COMMIT TRAN SavePosDevice_Tran;   
    END TRY
