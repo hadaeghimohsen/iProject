@@ -87,7 +87,7 @@ BEGIN
                ,ISSU_DATE = CASE WHEN dbo.PADSTR(@RespCode, 3) IN ('000', '100') THEN GETDATE() ELSE NULL END
                ,RESP_CODE = dbo.PADSTR(@RespCode, 3)
                ,RESP_DESC = @RespDesc
-               ,CARD_NO = @CardNo
+               ,CARD_NO = SUBSTRING(@CardNo, 1, 16)
                ,TERM_NO = @TermNo
                ,TRAN_NO = @TranNo               
                ,FLOW_NO = @FlowNo

@@ -1,15 +1,18 @@
 CREATE TABLE [Global].[Form]
 (
+[LCAL_LCID] [bigint] NULL,
 [ID] [bigint] NOT NULL CONSTRAINT [DF_FORM_ID] DEFAULT ([Dbo].[GetNewVerIdentity]()),
 [SUB_SYS] [char] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [APEN_NAME] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [FA_NAME] [nvarchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [EN_NAME] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-[GUID] [varchar] (38) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[GUID] [varchar] (38) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [FORM_PATH] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [BLOB]
 GO
 ALTER TABLE [Global].[Form] ADD CONSTRAINT [PK_Form] PRIMARY KEY CLUSTERED  ([ID]) ON [BLOB]
+GO
+ALTER TABLE [Global].[Form] ADD CONSTRAINT [FK_FROM_LCAL] FOREIGN KEY ([LCAL_LCID]) REFERENCES [Global].[Localization] ([LCID])
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'نام لاتین زیر سیستم', 'SCHEMA', N'Global', 'TABLE', N'Form', 'COLUMN', N'APEN_NAME'
 GO
