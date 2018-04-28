@@ -5,7 +5,8 @@ CREATE TABLE [Global].[Form_Controls]
 [NAME] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [LABL_TEXT] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [TOOL_TIP_TEXT] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[PLAC_HLDR_TEXT] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[PLAC_HLDR_TEXT] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CNTL_TYPE] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO
 SET QUOTED_IDENTIFIER ON
