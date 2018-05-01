@@ -6,7 +6,8 @@ CREATE TABLE [Global].[Form_Controls]
 [LABL_TEXT] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [TOOL_TIP_TEXT] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PLAC_HLDR_TEXT] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[CNTL_TYPE] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[CNTL_TYPE] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[STAT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO
 SET QUOTED_IDENTIFIER ON
@@ -26,7 +27,7 @@ BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
-
+   
     -- Insert statements for trigger here
    MERGE Global.Form_Controls T
    USING (SELECT * FROM Inserted) S
@@ -36,7 +37,7 @@ BEGIN
          t.ID = dbo.GetNewVerIdentity();
 END
 GO
-ALTER TABLE [Global].[Form_Controls] ADD CONSTRAINT [PK_Form_Controls] PRIMARY KEY CLUSTERED  ([ID]) ON [PRIMARY]
+ALTER TABLE [Global].[Form_Controls] ADD CONSTRAINT [PK_FMCL] PRIMARY KEY CLUSTERED  ([ID]) ON [PRIMARY]
 GO
-ALTER TABLE [Global].[Form_Controls] ADD CONSTRAINT [FK_FROM_FMCL] FOREIGN KEY ([FORM_ID]) REFERENCES [Global].[Form] ([ID])
+ALTER TABLE [Global].[Form_Controls] ADD CONSTRAINT [FK_FROM_FMCL] FOREIGN KEY ([FORM_ID]) REFERENCES [Global].[Form] ([ID]) ON DELETE CASCADE ON UPDATE CASCADE
 GO

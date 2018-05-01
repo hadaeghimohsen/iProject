@@ -12,7 +12,7 @@ CREATE TABLE [Global].[Form]
 GO
 ALTER TABLE [Global].[Form] ADD CONSTRAINT [PK_Form] PRIMARY KEY CLUSTERED  ([ID]) ON [BLOB]
 GO
-ALTER TABLE [Global].[Form] ADD CONSTRAINT [FK_FROM_LCAL] FOREIGN KEY ([LCAL_LCID]) REFERENCES [Global].[Localization] ([LCID])
+ALTER TABLE [Global].[Form] ADD CONSTRAINT [FK_FROM_LCAL] FOREIGN KEY ([LCAL_LCID]) REFERENCES [Global].[Localization] ([LCID]) ON DELETE CASCADE ON UPDATE CASCADE
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'نام لاتین زیر سیستم', 'SCHEMA', N'Global', 'TABLE', N'Form', 'COLUMN', N'APEN_NAME'
 GO
