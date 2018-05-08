@@ -6,7 +6,11 @@ CREATE PROCEDURE [Global].[Compare_Duplicate_Localization]
    @X XML
 AS 
 BEGIN
+   BEGIN TRY   
+   BEGIN TRAN T_COMPDUPL
+   
    DECLARE @SubSys INT
+          ,@SourceLocalizationRegion VARCHAR(3)
           ,@SourceLocalizationId BIGINT
           ,@SourceFormId BIGINT
           ,@SourceFormName VARCHAR(250)
@@ -24,9 +28,13 @@ BEGIN
           ,@TargetFormControlId BIGINT;
    
    SELECT @SubSys = @X.query('.').value('(Localization/@subsys)[1]', 'INT')
-         ,@SourceLocalizationId = @X.query('.').value('(Localization/@sorclcid)[1]', 'BIGINT')
-         ,@SourceFormId = @X.query('.').value('(Localization/@sorcfmid)[1]', 'BIGINT')
+         ,@SourceLocalizationRegion = @X.query('.').value('(Localization/@sorclcalregn)[1]', 'VARCHAR(3)')
          ,@TargetLocalizationRegion = @X.query('.').value('(Localization/@trgtlcalregn)[1]', 'VARCHAR(3)');
+
+   SELECT @SourceLocalizationId = LCID
+     FROM Global.Localization
+    WHERE SUB_SYS = @SubSys
+      AND REGN_LANG = @SourceLocalizationRegion;   
    
    -- ثبت گزینه منطقه برای زیر سیستم
    IF NOT EXISTS(
@@ -41,7 +49,7 @@ BEGIN
                 SUB_SYS ,
                 REGN_LANG 
               )
-      VALUES  ( 0 , -- LCID - bigint
+      VALUES  ( [Dbo].[GetNewVerIdentity]() , -- LCID - bigint
                 @SubSys , -- SUB_SYS - int
                 @TargetLocalizationRegion  -- REGN_LANG - varchar(3)
               );      
@@ -80,7 +88,7 @@ BEGIN
                 EN_NAME 
               )
       VALUES  ( @TargetLocalizationId , -- LCAL_LCID - bigint
-                0 , -- ID - bigint
+                [Dbo].[GetNewVerIdentity]() , -- ID - bigint
                 @SubSys , -- SUB_SYS - int
                 @FaName , -- FA_NAME - nvarchar(250)
                 @EnName  -- EN_NAME - varchar(250)
@@ -114,7 +122,6 @@ BEGIN
    BEGIN
       INSERT INTO Global.Form_Controls
               ( FORM_ID ,
-                ID ,
                 NAME ,
                 LABL_TEXT ,
                 TOOL_TIP_TEXT ,
@@ -123,7 +130,6 @@ BEGIN
                 STAT
               )
       VALUES  ( @TargetFormId , -- FORM_ID - bigint
-                0 , -- ID - bigint
                 @TargetName , -- NAME - varchar(50)
                 @TargetLablText , -- LABL_TEXT - nvarchar(100)
                 @TargetToolTip , -- TOOL_TIP_TEXT - nvarchar(100)
@@ -131,6 +137,7 @@ BEGIN
                 @TargetCntlType , -- CNTL_TYPE - varchar(3)
                 @TargetStat  -- STAT - varchar(3)
               );
+      WAITFOR DELAY '00:00:00:020';
    END
    
    SELECT @TargetFormControlId = ID
@@ -153,5 +160,17 @@ BEGIN
    L$ENDLOOPSORCFORM:
    CLOSE [C$SORCFORM];
    DEALLOCATE [C$SORCFORM];
+   
+   COMMIT TRAN T_COMPDUPL;
+   END TRY
+   BEGIN CATCH
+      DECLARE @ErrorMessage NVARCHAR(MAX);
+      SET @ErrorMessage = ERROR_MESSAGE();
+      RAISERROR ( @ErrorMessage, -- Message text.
+               16, -- Severity.
+               1 -- State.
+               );
+      ROLLBACK TRAN T1;
+   END CATCH;   
 END;
 GO

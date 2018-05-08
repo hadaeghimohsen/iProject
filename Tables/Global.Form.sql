@@ -3,7 +3,7 @@ CREATE TABLE [Global].[Form]
 [LCAL_LCID] [bigint] NULL,
 [ID] [bigint] NOT NULL CONSTRAINT [DF_FORM_ID] DEFAULT ([Dbo].[GetNewVerIdentity]()),
 [SUB_SYS] [int] NOT NULL,
-[APEN_NAME] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[APEN_NAME] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [FA_NAME] [nvarchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [EN_NAME] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [GUID] [varchar] (38) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
