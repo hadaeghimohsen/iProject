@@ -122,20 +122,24 @@ BEGIN
    BEGIN
       INSERT INTO Global.Form_Controls
               ( FORM_ID ,
+                ID,
                 NAME ,
                 LABL_TEXT ,
                 TOOL_TIP_TEXT ,
                 PLAC_HLDR_TEXT ,
                 CNTL_TYPE ,
-                STAT
+                STAT,
+                TRAN_STAT
               )
       VALUES  ( @TargetFormId , -- FORM_ID - bigint
+                0,
                 @TargetName , -- NAME - varchar(50)
                 @TargetLablText , -- LABL_TEXT - nvarchar(100)
                 @TargetToolTip , -- TOOL_TIP_TEXT - nvarchar(100)
                 @TargetPlacHldrText , -- PLAC_HLDR_TEXT - nvarchar(100)
                 @TargetCntlType , -- CNTL_TYPE - varchar(3)
-                @TargetStat  -- STAT - varchar(3)
+                @TargetStat,  -- STAT - varchar(3)
+                '001'
               );
       WAITFOR DELAY '00:00:00:020';
    END

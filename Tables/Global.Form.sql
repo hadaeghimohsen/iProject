@@ -1,7 +1,7 @@
 CREATE TABLE [Global].[Form]
 (
 [LCAL_LCID] [bigint] NULL,
-[ID] [bigint] NOT NULL CONSTRAINT [DF_FORM_ID] DEFAULT ([Dbo].[GetNewVerIdentity]()),
+[ID] [bigint] NOT NULL,
 [SUB_SYS] [int] NOT NULL,
 [APEN_NAME] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [FA_NAME] [nvarchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -9,6 +9,34 @@ CREATE TABLE [Global].[Form]
 [GUID] [varchar] (38) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [FORM_PATH] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [BLOB]
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE TRIGGER [Global].[CG$AINS_FORM]
+   ON [Global].[Form]
+   AFTER INSERT
+AS 
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for trigger here
+   MERGE Global.Form T
+   USING (SELECT * FROM Inserted) S
+   ON (T.LCAL_LCID = S.LCAL_LCID AND 
+       T.ID = S.ID)
+   WHEN MATCHED THEN
+      UPDATE SET
+         T.ID = CASE s.ID WHEN 0 THEN dbo.GetNewVerIdentity() ELSE s.ID END;
+END
 GO
 ALTER TABLE [Global].[Form] ADD CONSTRAINT [PK_Form] PRIMARY KEY CLUSTERED  ([ID]) ON [BLOB]
 GO

@@ -35,7 +35,7 @@ BEGIN
       UPDATE SET 
          T.CRET_BY = UPPER(SUSER_NAME())
         ,t.CRET_DATE = GETDATE()
-        ,T.LCID = dbo.GetNewVerIdentity();
+        ,T.LCID = CASE S.LCID WHEN 0 THEN dbo.GetNewVerIdentity() ELSE S.LCID END;
          
 END
 GO
