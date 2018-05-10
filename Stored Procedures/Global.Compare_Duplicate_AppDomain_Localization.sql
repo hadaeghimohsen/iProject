@@ -11,8 +11,8 @@ BEGIN
           ,@TargetRegnLang VARCHAR(3);
    
    SELECT @SubSys = @X.query('Localization').value('(Localization/@subsys)[1]', 'INT')
-         ,@SourceRegnLang = @X.query('Localization').value('(Localization/@sorcregnlang)[1]', 'VARCHAR(3)')
-         ,@TargetRegnLang = @X.query('Localization').value('(Localization/@sorcregnlang)[1]', 'VARCHAR(3)');
+         ,@SourceRegnLang = @X.query('Localization').value('(Localization/@sorclcalregn)[1]', 'VARCHAR(3)')
+         ,@TargetRegnLang = @X.query('Localization').value('(Localization/@trgtlcalregn)[1]', 'VARCHAR(3)');
    
    IF @SubSys = 0 
    BEGIN

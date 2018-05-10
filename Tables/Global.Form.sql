@@ -24,9 +24,18 @@ CREATE TRIGGER [Global].[CG$AINS_FORM]
    AFTER INSERT
 AS 
 BEGIN
+   BEGIN TRY
+   BEGIN TRAN T_AINS_FORM
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
+   
+   IF EXISTS(SELECT * FROM Global.Form t, Inserted s WHERE t.LCAL_LCID = s.LCAL_LCID AND t.EN_NAME = s.EN_NAME AND t.ID != s.ID)
+   BEGIN
+      RAISERROR(N'این فرم قبلا درون زیر سیستم وارد شده است', 16, 1);
+      RETURN;
+   END;
+   
 
     -- Insert statements for trigger here
    MERGE Global.Form T
@@ -36,6 +45,12 @@ BEGIN
    WHEN MATCHED THEN
       UPDATE SET
          T.ID = CASE s.ID WHEN 0 THEN dbo.GetNewVerIdentity() ELSE s.ID END;
+   
+   COMMIT TRAN T_AINS_FORM;
+   END TRY
+   BEGIN CATCH 
+      ROLLBACK TRAN T_AINS_FORM;
+   END CATCH;
 END
 GO
 ALTER TABLE [Global].[Form] ADD CONSTRAINT [PK_Form] PRIMARY KEY CLUSTERED  ([ID]) ON [BLOB]
