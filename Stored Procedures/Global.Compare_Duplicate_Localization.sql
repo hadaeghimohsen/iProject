@@ -20,7 +20,7 @@ BEGIN
           ,@EnName VARCHAR(250)
           ,@TargetFormId BIGINT
           ,@TargetName NVARCHAR(50)
-          ,@TargetLablText NVARCHAR(100)
+          ,@TargetLablText NVARCHAR(255)
           ,@TargetToolTip NVARCHAR(100)
           ,@TargetPlacHldrText NVARCHAR(100)
           ,@TargetCntlType VARCHAR(3)

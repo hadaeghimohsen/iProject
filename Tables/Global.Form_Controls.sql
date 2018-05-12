@@ -3,7 +3,7 @@ CREATE TABLE [Global].[Form_Controls]
 [FORM_ID] [bigint] NULL,
 [ID] [bigint] NOT NULL,
 [NAME] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[LABL_TEXT] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[LABL_TEXT] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [TOOL_TIP_TEXT] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PLAC_HLDR_TEXT] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CNTL_TYPE] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
