@@ -16,13 +16,17 @@ CREATE TABLE [DataGuard].[Sub_System]
 [DB_NAME] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [SUB_DESC] [nvarchar] (500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [SUPR_EMAL] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[JOBS_STAT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[FREQ_INTR] [int] NULL,
+[BACK_UP_STAT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[BACK_UP_APP_EXIT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[BACK_UP_PATH_ADRS] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[UPLD_FILE_PATH_ADRS] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_DATE] [datetime] NULL,
 [MDFY_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[MDFY_DATE] [datetime] NULL,
-[JOBS_STAT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[FREQ_INTR] [int] NULL
-) ON [PRIMARY]
+[MDFY_DATE] [datetime] NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET QUOTED_IDENTIFIER ON
 GO
