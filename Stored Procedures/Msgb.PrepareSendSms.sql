@@ -52,7 +52,9 @@ BEGIN
 	FETCH NEXT FROM C$PrepareSendSms INTO @SubSys, @LineType, @PhonNumb, @MsgbText, @MsgbType, @Rfid;
 	
 	IF @@FETCH_STATUS <> 0
-	   GOTO ENDLOOP_C$PrepareSendSms;
+	   GOTO ENDLOOP_C$PrepareSendSms;	
+	
+	IF @PhonNumb IS NULL GOTO LOOP_C$PrepareSendSms;
 	
 	IF NOT EXISTS(
 	   SELECT *
