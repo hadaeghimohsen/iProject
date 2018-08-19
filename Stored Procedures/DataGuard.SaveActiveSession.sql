@@ -164,6 +164,14 @@ BEGIN
       SET @ActnType = '002'; -- تایید سیستم و ورود مجاز
    END 
    
+   -- 1397/05/28 * حذف رکورد های قدیمی
+   DELETE DataGuard.Active_Session
+    WHERE USGW_GTWY_MAC_ADRS = @CpuSrno
+      AND USGW_USER_ID = @UserId
+      AND USGW_RWNO = @GatewayRwno
+      AND AUDS_ID = @AccessUserDatasourceId
+      AND ACTN_TYPE = @ActnType;
+      
    -- ذخیره کردن 
    --  Active Session
    INSERT INTO DataGuard.Active_Session
