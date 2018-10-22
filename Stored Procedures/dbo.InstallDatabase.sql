@@ -51,10 +51,12 @@ BEGIN
            ,@MacAddress   VARCHAR(17)
            ,@Cpu      VARCHAR(30)
            ,@UserName     VARCHAR(250)
-           ,@UserId       BIGINT;
+           ,@UserId       BIGINT
+           ,@InstallLicenseKey NVARCHAR(4000);
    
    SELECT @ComputerName = @X.query('//Computer').value('(Computer/@name)[1]', 'VARCHAR(50)')
-         ,@Cpu = @X.query('//Computer').value('(Computer/@cpu)[1]', 'VARCHAR(30)');
+         ,@Cpu = @X.query('//Computer').value('(Computer/@cpu)[1]', 'VARCHAR(30)')
+         ,@InstallLicenseKey = @X.query('//Params').value('(Params/@licensekey)[1]', 'NVARCHAR(4000)');;
    
    -- Save Datasource and Connection
    INSERT INTO Report.DataSource
@@ -123,7 +125,7 @@ BEGIN
    
    EXEC DataGuard.SaveHostInfo @X = @XT;   
    
-   UPDATE DataGuard.Sub_System SET STAT = '002', INST_STAT = '002', CLNT_LICN_DESC = NULL, SRVR_LICN_DESC = NULL, LICN_TYPE = NULL, LICN_TRIL_DATE = NULL WHERE SUB_SYS IN (0,1,2);   
+   UPDATE DataGuard.Sub_System SET STAT = '002', INST_STAT = '002', CLNT_LICN_DESC = NULL, SRVR_LICN_DESC = NULL, LICN_TYPE = NULL, LICN_TRIL_DATE = NULL, INST_LICN_DESC = @InstallLicenseKey WHERE SUB_SYS IN (0,1,2);   
    
    INSERT INTO Global.Access_User_Datasource
    ( USER_ID ,DSRC_ID ,STAT ,ACES_TYPE ,

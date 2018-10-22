@@ -13,6 +13,7 @@ CREATE TABLE [DataGuard].[Sub_System]
 [LICN_TRIL_DATE] [datetime] NULL,
 [CLNT_LICN_DESC] [nvarchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [SRVR_LICN_DESC] [nvarchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[INST_LICN_DESC] [nvarchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [VERS_NO] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DB_NAME] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [SUB_DESC] [nvarchar] (500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
