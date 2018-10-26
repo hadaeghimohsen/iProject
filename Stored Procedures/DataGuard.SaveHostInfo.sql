@@ -24,10 +24,12 @@ BEGIN
           ,@IPAddress    VARCHAR(15)
           ,@MacAddress   VARCHAR(17)
           ,@CpuSrno      VARCHAR(30)
-          ,@UserId       BIGINT;
+          ,@UserId       BIGINT
+          ,@SystemStatus VARCHAR(30);
    
    -- 1395/12/22 * برای ثبت دستی سیستم کاربری
-   SELECT @RqtpCode = @x.query('Request').value('(Request/@Rqtp_Code)[1]', 'VARCHAR(30)');
+   SELECT @RqtpCode = @x.query('Request').value('(Request/@Rqtp_Code)[1]', 'VARCHAR(30)')
+         ,@SystemStatus = @x.query('Request').value('(Request/@SystemStatus)[1]', 'VARCHAR(30)');;
    
    IF @RqtpCode = 'ManualSaveHostInfo'
    BEGIN
@@ -277,7 +279,8 @@ BEGIN
    
    -- 1396/01/09
    -- ذخیره کردن جلسه فعال در جدول های مدیریتی و نظارتی
-   IF EXISTS(
+   IF @SystemStatus != 'installing' AND
+      EXISTS(
 	   SELECT *
 	     FROM DataGuard.Gateway
 	    WHERE COMP_NAME_DNRM = @ComputerName

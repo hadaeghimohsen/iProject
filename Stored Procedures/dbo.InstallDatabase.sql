@@ -65,7 +65,7 @@ BEGIN
      IsDefault ,IsActive ,IsVisible ,SUB_SYS 
    )
    VALUES  
-   ( 0 ,1 ,1 ,@ComputerName,0 , 
+   ( 0 ,0 ,1 ,@ComputerName,0 , 
      'iProject' ,'iProject' ,'' , '' , N'هسته نرم افزار انار' , 
      1 , 1 , 1 , 0  );
    
@@ -75,7 +75,7 @@ BEGIN
      IsDefault ,IsActive ,IsVisible ,SUB_SYS 
    )
    VALUES  
-   ( 1 ,2 ,1 ,@ComputerName,0 , 
+   ( 1 ,1 ,1 ,@ComputerName,0 , 
      NULL ,'master' ,'scott' , 'abcABC123!@#' , N'SQLSERVER' , 
      1 , 1 , 1 , NULL );
         
