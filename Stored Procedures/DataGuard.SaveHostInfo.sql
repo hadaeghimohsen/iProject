@@ -279,7 +279,7 @@ BEGIN
    
    -- 1396/01/09
    -- ذخیره کردن جلسه فعال در جدول های مدیریتی و نظارتی
-   IF @SystemStatus != 'installing' AND
+   IF ISNULL(@SystemStatus, 'Normal') != 'installing' AND
       EXISTS(
 	   SELECT *
 	     FROM DataGuard.Gateway
