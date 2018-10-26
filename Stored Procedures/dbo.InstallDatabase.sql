@@ -33,6 +33,13 @@ BEGIN
    DELETE Msgb.Sms_Message_Box;
    UPDATE DataGuard.Sub_System SET STAT = '001', INST_STAT = '001', CLNT_LICN_DESC = NULL, SRVR_LICN_DESC = NULL, LICN_TYPE = NULL, LICN_TRIL_DATE = NULL;
    
+   -- Insert Default Value
+   DECLARE @TinySN VARCHAR(100);
+   SELECT @TinySN = @X.query('Params').value('(Params/@tinyserialno)[1]','VARCHAR(100)');
+   
+   UPDATE dbo.Settings
+      SET x.modify('replace value of (/Settings/TinyLock/@serialno)[1] with sql:variable("@TinySN")')
+   
    -- Save Host Info
    /*
    '<Request Rqtp_Code="ManualSaveHostInfo">
@@ -82,10 +89,10 @@ BEGIN
    DECLARE @XT XML;
    SELECT @XT = (
       SELECT 'ManualSaveHostInfo' AS '@Rqtp_Code'
+            ,'installing' AS '@SystemStatus'
             ,'iProject' AS 'Database'
             ,'SqlServer' AS 'Dbms'
-            ,'scott' AS 'User'
-            ,'installing' AS 'SystemStatus'
+            ,'scott' AS 'User'            
             ,@X.query('//Computer').value('(Computer/@name)[1]', 'VARCHAR(50)') AS 'Computer/@name'
             ,@X.query('//Computer').value('(Computer/@mac)[1]', 'VARCHAR(17)') AS 'Computer/@mac'
             ,@X.query('//Computer').value('(Computer/@ip)[1]', 'VARCHAR(15)') AS 'Computer/@ip'
@@ -97,10 +104,10 @@ BEGIN
    
    SELECT @XT = (
       SELECT 'ManualSaveHostInfo' AS '@Rqtp_Code'
+            ,'installing' AS '@SystemStatus'
             ,'iProject' AS 'Database'
             ,'SqlServer' AS 'Dbms'
-            ,'artauser' AS 'User'
-            ,'installing' AS 'SystemStatus'
+            ,'artauser' AS 'User'            
             ,@X.query('//Computer').value('(Computer/@name)[1]', 'VARCHAR(50)') AS 'Computer/@name'
             ,@X.query('//Computer').value('(Computer/@mac)[1]', 'VARCHAR(17)') AS 'Computer/@mac'
             ,@X.query('//Computer').value('(Computer/@ip)[1]', 'VARCHAR(15)') AS 'Computer/@ip'
@@ -112,10 +119,10 @@ BEGIN
 
    SELECT @XT = (
       SELECT 'ManualSaveHostInfo' AS '@Rqtp_Code'
+            ,'installing' AS '@SystemStatus'
             ,'iProject' AS 'Database'
             ,'SqlServer' AS 'Dbms'
-            ,'demo' AS 'User'
-            ,'installing' AS 'SystemStatus'
+            ,'demo' AS 'User'            
             ,@X.query('//Computer').value('(Computer/@name)[1]', 'VARCHAR(50)') AS 'Computer/@name'
             ,@X.query('//Computer').value('(Computer/@mac)[1]', 'VARCHAR(17)') AS 'Computer/@mac'
             ,@X.query('//Computer').value('(Computer/@ip)[1]', 'VARCHAR(15)') AS 'Computer/@ip'
