@@ -13,7 +13,6 @@ CREATE PROCEDURE [dbo].[InstallDatabase]
 AS
 BEGIN
    BEGIN TRY   
-   BEGIN TRAN T_INSTALLDB
    -- Delete Record From Database
    DELETE DataGuard.Gateway_Public;
    DELETE DataGuard.Package_Instance_User_Qiuck_Action;
@@ -32,7 +31,8 @@ BEGIN
    DELETE Report.DataSource;
    DELETE Msgb.Sms_Message_Box;
    UPDATE DataGuard.Sub_System SET STAT = '001', INST_STAT = '001', CLNT_LICN_DESC = NULL, SRVR_LICN_DESC = NULL, LICN_TYPE = NULL, LICN_TRIL_DATE = NULL;
-   
+
+   BEGIN TRAN T_INSTALLDB   
    -- Insert Default Value
    DECLARE @TinySN VARCHAR(100);
    SELECT @TinySN = @X.query('Params').value('(Params/@tinyserialno)[1]','VARCHAR(100)');
