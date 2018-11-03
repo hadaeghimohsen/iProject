@@ -85,6 +85,8 @@ BEGIN
    ( 1 ,1 ,1 ,@ComputerName,0 , 
      NULL ,'master' ,'scott' , 'abcABC123!@#' , N'SQLSERVER' , 
      1 , 1 , 1 , NULL );
+   
+   COMMIT TRANSACTION T_INSTALLDB;
         
    DECLARE @XT XML;
    SELECT @XT = (
@@ -131,6 +133,8 @@ BEGIN
    );
    
    EXEC DataGuard.SaveHostInfo @X = @XT;   
+   
+   BEGIN TRANSACTION T_INSTALLDB;
    
    UPDATE DataGuard.Sub_System SET STAT = '002', INST_STAT = '002', CLNT_LICN_DESC = NULL, SRVR_LICN_DESC = NULL, LICN_TYPE = NULL, LICN_TRIL_DATE = NULL, INST_LICN_DESC = @InstallLicenseKey WHERE SUB_SYS IN (0,1,2);   
    
