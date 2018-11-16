@@ -68,7 +68,22 @@ BEGIN
 	
 	IF EXISTS (SELECT name FROM sys.databases WHERE name = N'iScsc001')
 	BEGIN
-	   EXEC iScsc.dbo.IntegrationSystems
-	End
+	   EXEC iScsc001.dbo.IntegrationSystems
+	END
+	
+	IF EXISTS (select NAME FROM sys.databases WHERE name = 'iCRM')
+	BEGIN
+	    EXEC iCRM.dbo.IntegrationSystems
+	END
+	
+	--IF EXISTS (select NAME FROM sys.databases WHERE name = 'iCRM001')
+	--BEGIN
+	--    EXEC iCRM001.dbo.IntegrationSystems
+	--END
+	
+	IF EXISTS (SELECT name FROM sys.databases WHERE name = 'iRoboTech')
+	BEGIN
+	   EXEC iRoboTech.dbo.IntegrationSystems
+	END
 END
 GO
