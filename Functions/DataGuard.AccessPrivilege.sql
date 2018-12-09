@@ -23,8 +23,13 @@ BEGIN
       @UserName = t.c.query('UserName').value('.','nvarchar(max)')
    From @Xml.nodes('/AP') t(c);
    
+   -- اگر کاربر اصلی باشد تمام دسترسی ها رو بهش داده شود
    IF @UserName = 'scott' 
       RETURN 1;
+   
+   -- اگر زیر سیستم درون نرم افزار نصب نشده باشد دیگر دسترسی دادن مفهومی ندارد
+   IF NOT EXISTS(SELECT * FROM Report.DataSource WHERE SUB_SYS = @Sub_Sys) 
+      RETURN 0;
    
 	if(
          exists (Select * from DataGuard.URP urp Where urp.UserEnName = @UserName and urp.sub_sys = @Sub_Sys and urp.privilegeid = @PrivilegeID ) 	   

@@ -75,7 +75,8 @@ BEGIN
    WHEN MATCHED THEN
       UPDATE
          SET MDFY_BY = UPPER(SUSER_NAME())
-            ,MDFY_DATE = GETDATE();
+            ,MDFY_DATE = GETDATE()
+            ,T.MESG_LENT = LEN(S.MSGB_TEXT);
 
 END
 GO
