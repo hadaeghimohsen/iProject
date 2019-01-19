@@ -24,6 +24,7 @@ CREATE TABLE [DataGuard].[Sub_System]
 [BACK_UP_APP_EXIT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [BACK_UP_PATH_ADRS] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [UPLD_FILE_PATH_ADRS] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SUPR_YEAR_PRIC] [bigint] NULL,
 [CRET_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_DATE] [datetime] NULL,
 [MDFY_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -115,6 +116,8 @@ GO
 EXEC sp_addextendedproperty N'MS_Description', N'وضعیت قابل نمایش رکورد', 'SCHEMA', N'DataGuard', 'TABLE', N'Sub_System', 'COLUMN', N'STAT'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'متن اولیه فرم ورود به سیستم', 'SCHEMA', N'DataGuard', 'TABLE', N'Sub_System', 'COLUMN', N'SUB_DESC'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'مبلغ سالیانه پشتیبانی', 'SCHEMA', N'DataGuard', 'TABLE', N'Sub_System', 'COLUMN', N'SUPR_YEAR_PRIC'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'شماره نسخه نرم افزاری', 'SCHEMA', N'DataGuard', 'TABLE', N'Sub_System', 'COLUMN', N'VERS_NO'
 GO
