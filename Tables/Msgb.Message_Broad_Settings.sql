@@ -15,6 +15,10 @@ CREATE TABLE [Msgb].[Message_Broad_Settings]
 [DFLT_STAT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [LAST_ROW_FTCH] [bigint] NULL,
 [FTCH_ROW] [int] NULL,
+[ALRM_TO_USER_ID] [bigint] NULL,
+[ALRM_MIN_REMN_CHRG] [int] NULL,
+[MIN_STOP_CHRG] [int] NULL,
+[ALRM_DESC] [nvarchar] (500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_DATE] [datetime] NULL,
 [MDFY_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -80,6 +84,10 @@ END
 GO
 ALTER TABLE [Msgb].[Message_Broad_Settings] ADD CONSTRAINT [PK_Message_Broad_Settings] PRIMARY KEY CLUSTERED  ([MBID]) ON [PRIMARY]
 GO
+ALTER TABLE [Msgb].[Message_Broad_Settings] ADD CONSTRAINT [FK_MSBS_USER] FOREIGN KEY ([ALRM_TO_USER_ID]) REFERENCES [DataGuard].[User] ([ID])
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'هشدار حداقل شارژ باقیمانده', 'SCHEMA', N'Msgb', 'TABLE', N'Message_Broad_Settings', 'COLUMN', N'ALRM_MIN_REMN_CHRG'
+GO
 EXEC sp_addextendedproperty N'MS_Description', N'مدت زمان', 'SCHEMA', N'Msgb', 'TABLE', N'Message_Broad_Settings', 'COLUMN', N'BGWK_INTR'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'وضعیت', 'SCHEMA', N'Msgb', 'TABLE', N'Message_Broad_Settings', 'COLUMN', N'BGWK_STAT'
@@ -87,6 +95,8 @@ GO
 EXEC sp_addextendedproperty N'MS_Description', N'شماره خط', 'SCHEMA', N'Msgb', 'TABLE', N'Message_Broad_Settings', 'COLUMN', N'LINE_NUMB'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'نوع خط', 'SCHEMA', N'Msgb', 'TABLE', N'Message_Broad_Settings', 'COLUMN', N'LINE_TYPE'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'حداقل شارژ توقف', 'SCHEMA', N'Msgb', 'TABLE', N'Message_Broad_Settings', 'COLUMN', N'MIN_STOP_CHRG'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'SMS OR Telegram', 'SCHEMA', N'Msgb', 'TABLE', N'Message_Broad_Settings', 'COLUMN', N'TYPE'
 GO
