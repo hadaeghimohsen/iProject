@@ -83,7 +83,7 @@ BEGIN
 	             'DATABASE=' + @DatabaseName + ';' + 
 	             'USER ID=' + @UserName + ';'+ 
 	             'PASSWORD=' + @Password + ';'+
-	             'Connection Timeout=1800;';
+	             'Connection Timeout=18000;';
            
 	      --RETURN 'SERVER=' + (SELECT IPADDRESS FROM Report.DataSource WHERE UPPER([Database]) = UPPER(@DatabaseName)) + ';' +
 	      --       'DATABASE=' + @DatabaseName + ';' + 
