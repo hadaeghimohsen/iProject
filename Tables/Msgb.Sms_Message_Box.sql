@@ -14,6 +14,9 @@ CREATE TABLE [Msgb].[Sms_Message_Box]
 [EROR_MESG] [nvarchar] (500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [SRVR_SEND_DATE] [datetime] NULL,
 [MESG_LENT] [int] NULL,
+[SEND_TYPE] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[BULK_NUMB] [bigint] NULL,
+[PAGE_NUMB_DNRM] [int] NULL,
 [CRET_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_DATE] [datetime] NULL,
 [MDFY_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -46,7 +49,8 @@ BEGIN
       UPDATE
          SET CRET_BY = UPPER(SUSER_NAME())
             ,CRET_DATE = GETDATE()
-            ,ACTN_DATE = GETDATE();
+            ,ACTN_DATE = CASE WHEN s.ACTN_DATE IS NULL THEN GETDATE() ELSE s.ACTN_DATE END
+            ,SEND_TYPE = CASE WHEN s.SEND_TYPE IS NULL THEN '001' ELSE s.SEND_TYPE END;
 
 END
 GO
@@ -76,7 +80,8 @@ BEGIN
       UPDATE
          SET MDFY_BY = UPPER(SUSER_NAME())
             ,MDFY_DATE = GETDATE()
-            ,T.MESG_LENT = LEN(S.MSGB_TEXT);
+            ,T.MESG_LENT = LEN(S.MSGB_TEXT)
+            ,T.PAGE_NUMB_DNRM = CASE (LEN(S.MSGB_TEXT) % 70) WHEN 0 THEN LEN(S.MSGB_TEXT) / 70 ELSE (LEN(S.MSGB_TEXT) / 70) + 1 END; 
 
 END
 GO
@@ -84,7 +89,13 @@ ALTER TABLE [Msgb].[Sms_Message_Box] ADD CONSTRAINT [PK_SMGB] PRIMARY KEY CLUSTE
 GO
 ALTER TABLE [Msgb].[Sms_Message_Box] ADD CONSTRAINT [FK_SMGB_SUBS] FOREIGN KEY ([SUB_SYS]) REFERENCES [DataGuard].[Sub_System] ([SUB_SYS])
 GO
+EXEC sp_addextendedproperty N'MS_Description', N'شماره بلاک ارسالی', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'BULK_NUMB'
+GO
 EXEC sp_addextendedproperty N'MS_Description', N'کد شناسه مربوط به ارسال پیام در وب سرویس -  برای پیگیری کردن وضعیت پیام ارسال شده', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'MESG_ID'
 GO
+EXEC sp_addextendedproperty N'MS_Description', N'تعداد صفحات پیامک', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'PAGE_NUMB_DNRM'
+GO
 EXEC sp_addextendedproperty N'MS_Description', N'ایندکس مربوط به زیر سیستم ها که بتوانند اطلاعات خود را پیگیری کنند', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'RFID'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'نوع ارسالی پیام', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'SEND_TYPE'
 GO
