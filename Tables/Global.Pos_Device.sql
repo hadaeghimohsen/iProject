@@ -19,6 +19,9 @@ CREATE TABLE [Global].[Pos_Device]
 [PRNT_CUST] [nvarchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AUTO_COMM] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [GTWY_MAC_ADRS] [varchar] (17) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[ACTN_TYPE] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL CONSTRAINT [DF_Pos_Device_ACTN_TYPE] DEFAULT ('001'),
+[BILL_FIND_TYPE] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[BILL_NO] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_DATE] [date] NULL,
 [MDFY_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -79,13 +82,41 @@ BEGIN
       UPDATE SET
          T.MDFY_BY = UPPER(SUSER_NAME())
         ,T.MDFY_DATE = GETDATE();
+   
+   -- 1398/10/02 * ایجاد رکورد دسترسی به پوز ها برای کاربران
+   INSERT INTO Global.User_Access_Pos
+   (USER_ID ,POSD_PSID ,UPID ,STAT)
+   SELECT u.ID, i.PSID, dbo.GNRT_NVID_U(), '002'
+     FROM DataGuard.[User] u, Inserted i
+    WHERE NOT EXISTS(
+          SELECT *
+            FROM Global.User_Access_Pos up
+           WHERE up.USER_ID = u.ID
+             AND up.POSD_PSID = i.PSID
+    );
+   
 END
 GO
 ALTER TABLE [Global].[Pos_Device] ADD CONSTRAINT [PK_POS] PRIMARY KEY CLUSTERED  ([PSID]) ON [BLOB]
 GO
+EXEC sp_addextendedproperty N'MS_Description', N'نوع حساب متصل به پوز
+
+حساب دولتی
+حساب عمومی و شخصی', 'SCHEMA', N'Global', 'TABLE', N'Pos_Device', 'COLUMN', N'ACTN_TYPE'
+GO
 EXEC sp_addextendedproperty N'MS_Description', N'اجرای اتوماتیک', 'SCHEMA', N'Global', 'TABLE', N'Pos_Device', 'COLUMN', N'AUTO_COMM'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'میزان باند ', 'SCHEMA', N'Global', 'TABLE', N'Pos_Device', 'COLUMN', N'BAND_RATE'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'نحوه پیدا کردن شناسه قبض دولتی
+
+از طریق خود ردیف پوز 
+یا
+از طریق کاربر متصل به پوز
+
+این گزینه برای این میباشد که بتوانیم برای جاهایی که یک دستگاه وجود دارد بتوانیم شناسه های قبض مختلفی را بر اساس کاربر وارد شده به سیستم اطلاعات را وارد کنیم', 'SCHEMA', N'Global', 'TABLE', N'Pos_Device', 'COLUMN', N'BILL_FIND_TYPE'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'شناسه قبض برای وجوه دولتی', 'SCHEMA', N'Global', 'TABLE', N'Pos_Device', 'COLUMN', N'BILL_NO'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'پورت سریال', 'SCHEMA', N'Global', 'TABLE', N'Pos_Device', 'COLUMN', N'COMM_PORT'
 GO
