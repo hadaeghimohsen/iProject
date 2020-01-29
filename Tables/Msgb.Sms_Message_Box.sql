@@ -5,6 +5,8 @@ CREATE TABLE [Msgb].[Sms_Message_Box]
 [LINE_TYPE] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ACTN_DATE] [datetime] NULL,
 [RFID] [bigint] NULL,
+[KEY1_RFID] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[KEY2_RFID] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PHON_NUMB] [varchar] (11) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [MSGB_TEXT] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [MSGB_TYPE] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -89,13 +91,25 @@ ALTER TABLE [Msgb].[Sms_Message_Box] ADD CONSTRAINT [PK_SMGB] PRIMARY KEY CLUSTE
 GO
 ALTER TABLE [Msgb].[Sms_Message_Box] ADD CONSTRAINT [FK_SMGB_SUBS] FOREIGN KEY ([SUB_SYS]) REFERENCES [DataGuard].[Sub_System] ([SUB_SYS])
 GO
+EXEC sp_addextendedproperty N'MS_Description', N'تاریخ و زمان ارسال', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'ACTN_DATE'
+GO
 EXEC sp_addextendedproperty N'MS_Description', N'شماره بلاک ارسالی', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'BULK_NUMB'
 GO
+EXEC sp_addextendedproperty N'MS_Description', N'کلید ارجاعی 1', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'KEY1_RFID'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'کلید ارجاعی 2', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'KEY2_RFID'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'نوع خط ارسال کننده خط تبلیغاتی، خط معمولی', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'LINE_TYPE'
+GO
 EXEC sp_addextendedproperty N'MS_Description', N'کد شناسه مربوط به ارسال پیام در وب سرویس -  برای پیگیری کردن وضعیت پیام ارسال شده', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'MESG_ID'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'نوع پیام برای زیر سیستم', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'MSGB_TYPE'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'تعداد صفحات پیامک', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'PAGE_NUMB_DNRM'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'ایندکس مربوط به زیر سیستم ها که بتوانند اطلاعات خود را پیگیری کنند', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'RFID'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'نوع ارسالی پیام', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'SEND_TYPE'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'وضعیت پیام', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'STAT'
 GO
