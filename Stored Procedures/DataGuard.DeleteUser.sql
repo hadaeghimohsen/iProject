@@ -40,11 +40,12 @@ BEGIN
 	
 	-- Exec Other Database For Duplicate user	
 	------------------------------
-	IF NOT EXISTS (SELECT * FROM SYS.SERVER_PRINCIPALS WHERE UPPER(Name) = UPPER(@TitleEn))
+	IF EXISTS (SELECT * FROM SYS.SERVER_PRINCIPALS WHERE UPPER(Name) = UPPER(@TitleEn))
    BEGIN
       DECLARE @sql NVARCHAR(max)
-      SET @sql = 'USE master;' +
-                 'DROP LOGIN ' + @TitleEn ;
+      SET @sql = 'USE master;' + CHAR(10) +
+                 'DROP LOGIN [' + @TitleEn + '];' ;
+      
       EXEC (@sql);
    END
 END

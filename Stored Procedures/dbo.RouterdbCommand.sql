@@ -14,24 +14,42 @@ CREATE PROCEDURE [dbo].[RouterdbCommand]
 	      <Service fileno="13971010125456564" cellphon="09033927103"/>	      
 	   </Router_Command>
 	*/
-	@X XML
+	@X XML,
+	@xRet XML OUTPUT
 AS
 BEGIN
    BEGIN TRY
-   BEGIN TRAN ROTR_DBCM_T
+   BEGIN TRAN ROTR_DBCM_T00
 	DECLARE @SubSys INT
 	       ,@CmndCode VARCHAR(10)
-	       ,@CmndDesc NVARCHAR(100);
+	       ,@CmndDesc NVARCHAR(100)
+	       ,@ExecAsLogin VARCHAR(100)
+	       ,@CrntLogin VARCHAR(100) = SUSER_NAME();
    
    SELECT @SubSys = @X.query('Router_Command').value('(Router_Command/@subsys)[1]', 'INT')
-         ,@CmndCode = @X.query('Router_Command').value('(Router_Command/@cmndcode)[1]', 'VARCHAR(10)');
+         ,@CmndCode = @X.query('Router_Command').value('(Router_Command/@cmndcode)[1]', 'VARCHAR(10)')
+         ,@ExecAsLogin = @X.query('Router_Command').value('(Router_Command/@execaslogin)[1]', 'VARCHAR(100)');
    
-   IF @SubSys = '5' AND EXISTS (SELECT name FROM sys.databases WHERE name = N'iScsc')
+   IF @SubSys = 0
+   BEGIN
+      EXEC AS LOGIN = ISNULL(@ExecAsLogin, @CrntLogin);
+      EXEC dbo.RunnerdbCommand @X = @X, @xRet = @xRet OUTPUT -- xml      
+      EXEC AS LOGIN = @CrntLogin;      
+   END 
+   ELSE IF @SubSys = '5' AND EXISTS (SELECT name FROM sys.databases WHERE name = N'iScsc')
    BEGIN   
-      EXEC iScsc.dbo.RouterdbCommand @X = @X -- xml      
+      EXEC iScsc.dbo.RouterdbCommand @X = @X, @xRet = @xRet OUTPUT -- xml      
    END
+   ELSE IF @SubSys = '11' AND EXISTS (SELECT name FROM sys.databases WHERE name = N'iCRM')
+   BEGIN
+      EXEC iCRM.dbo.RouterdbCommand @X = @X, @xRet = @xRet OUTPUT -- xml      
+   END 
+   ELSE IF @SubSys = '12' AND EXISTS (SELECT name FROM sys.databases WHERE name = N'iRoboTech')
+   BEGIN
+      EXEC iRoboTech.dbo.RouterdbCommand @X = @X, @xRet = @xRet OUTPUT -- xml      
+   END 
    
-   COMMIT TRAN ROTR_DBCM_T;
+   COMMIT TRAN ROTR_DBCM_T00;
    RETURN 1;
    END TRY
    BEGIN CATCH
@@ -41,7 +59,7 @@ BEGIN
                16, -- Severity.
                1 -- State.
                );
-      ROLLBACK TRAN ROTR_DBCM_T;
+      ROLLBACK TRAN ROTR_DBCM_T00;
    END CATCH
 END
 GO

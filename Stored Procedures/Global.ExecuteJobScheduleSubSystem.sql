@@ -21,11 +21,6 @@ BEGIN
 	   EXEC iCRM001.dbo.EXEC_JOBS_P @X = @X -- xml	   
 	END;
 	
-	IF EXISTS (SELECT name FROM sys.databases WHERE name = N'iCRM002')
-	BEGIN
-	   EXEC iCRM002.dbo.EXEC_JOBS_P @X = @X -- xml	   
-	END;
-	
 	IF EXISTS (SELECT name FROM sys.databases WHERE name = N'iDental')
 	BEGIN
 	   --EXEC iDental.dbo.EXEC_JOBS_P @X = @X -- xml
@@ -46,13 +41,16 @@ BEGIN
 	IF EXISTS (SELECT name FROM sys.databases WHERE name = N'iRoboTech')
 	BEGIN
 	   --EXEC iRoboTech.dbo.ShrinkLogFileDb;
-	   PRINT 'Run Job'
+	   --PRINT 'Run Job'
+	   EXEC iRoboTech.dbo.EXEC_JOBS_P @X = @X -- xml
+	   
 	END;
 	
 	IF EXISTS (SELECT name FROM sys.databases WHERE name = N'iScsc')
 	BEGIN
 	   --EXEC iScsc.dbo.ShrinkLogFileDb;
-	   PRINT 'Run Job'
+	   --PRINT 'Run Job'
+	   EXEC iScsc.dbo.EXEC_JOBS_P @X = @X;
 	END;
 END
 GO

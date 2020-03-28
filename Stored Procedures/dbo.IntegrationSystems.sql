@@ -63,7 +63,7 @@ BEGIN
     DEALLOCATE [C$UserNotGateway];
    
     UPDATE  DataGuard.Sub_System
-    SET     LICN_TRIL_DATE = DATEADD(DAY, 365, GETDATE()) ,
+    SET     LICN_TRIL_DATE = ISNULL(LICN_TRIL_DATE, DATEADD(DAY, 365, GETDATE())) ,
             BACK_UP_STAT = '002' ,
             BACK_UP_APP_EXIT = '001';
    
