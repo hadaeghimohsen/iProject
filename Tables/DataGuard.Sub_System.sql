@@ -20,6 +20,7 @@ CREATE TABLE [DataGuard].[Sub_System]
 [SUPR_EMAL] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [JOBS_STAT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [FREQ_INTR] [int] NULL,
+[JOB_ID] [uniqueidentifier] NULL,
 [BACK_UP_STAT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [BACK_UP_APP_EXIT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [BACK_UP_PATH_ADRS] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
