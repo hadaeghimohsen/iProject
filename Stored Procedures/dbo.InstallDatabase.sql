@@ -24,7 +24,7 @@ BEGIN
    DELETE Global.Script_Parameter;
    DELETE Global.Script;
    DELETE DataGuard.Gateway;   
-   DELETE DataGuard.[User] WHERE ShortCut NOT IN (16, 21, 22);
+   DELETE DataGuard.[User] WHERE ShortCut NOT IN (16, 21, 22, 24, 25);
    DELETE Report.Profiler;
    DELETE Report.GroupHeader;
    DELETE Global.Access_User_Datasource;

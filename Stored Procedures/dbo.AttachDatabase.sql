@@ -31,5 +31,7 @@ BEGIN
    UPDATE Report.DataSource 
       SET IPAddress = @ComputerName
      WHERE DatabaseServer = 1;
+   
+   EXEC DataGuard.ReCreateExistsUsers;
 END
 GO
