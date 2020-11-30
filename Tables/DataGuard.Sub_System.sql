@@ -26,6 +26,7 @@ CREATE TABLE [DataGuard].[Sub_System]
 [BACK_UP_PATH_ADRS] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [UPLD_FILE_PATH_ADRS] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [SUPR_YEAR_PRIC] [bigint] NULL,
+[RECD_NUMB] [bigint] NULL,
 [CRET_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_DATE] [datetime] NULL,
 [MDFY_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -113,6 +114,8 @@ GO
 EXEC sp_addextendedproperty N'MS_Description', N'تاریخ پایان لایسنس', 'SCHEMA', N'DataGuard', 'TABLE', N'Sub_System', 'COLUMN', N'LICN_TRIL_DATE'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'نوع لایسنس خریداری شده', 'SCHEMA', N'DataGuard', 'TABLE', N'Sub_System', 'COLUMN', N'LICN_TYPE'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'تعداد ردیف های ذخیره سازی درون پایگاه داده', 'SCHEMA', N'DataGuard', 'TABLE', N'Sub_System', 'COLUMN', N'RECD_NUMB'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'وضعیت قابل نمایش رکورد', 'SCHEMA', N'DataGuard', 'TABLE', N'Sub_System', 'COLUMN', N'STAT'
 GO
