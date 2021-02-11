@@ -39,6 +39,7 @@ CREATE TABLE [DataGuard].[User]
 [DFLT_USER_HELP_SRVR] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [REGN_LANG] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [RTL_STAT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PIN_CODE] [int] NULL,
 [CRET_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_DATE] [datetime] NULL,
 [MDFY_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -133,6 +134,8 @@ GO
 EXEC sp_addextendedproperty N'MS_Description', N'Profile Name Mail Server', 'SCHEMA', N'DataGuard', 'TABLE', N'User', 'COLUMN', N'MAIL_SRVR_PROF'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'Sql Server Mail Server Use', 'SCHEMA', N'DataGuard', 'TABLE', N'User', 'COLUMN', N'MAIL_SRVR_STAT'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'برای وارد کردن شماره پین کد', 'SCHEMA', N'DataGuard', 'TABLE', N'User', 'COLUMN', N'PIN_CODE'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'اطلاعات خصوصی کاربران در صفحه ورود مجدد قابل رویت باشد', 'SCHEMA', N'DataGuard', 'TABLE', N'User', 'COLUMN', N'PRVC_LOCK_SCRN_STAT'
 GO
