@@ -43,7 +43,7 @@ BEGIN
          --CAST(@LastDate AS DATE) < CAST(@CrntDate AS DATE) OR 
          CAST(@LastDate AS DATE) > CAST(@CrntDate AS DATE) OR 
          DATEDIFF(DAY, @LastDate, @AppExprDate) < 0 OR 
-         (SELECT TOP 1 PERS_EXPR_VALU FROM DataGuard.V#Settings) != SUBSTRING(dbo.MiladiTOShamsi(GETDATE()), 1 , 4) + '/12/30'
+         (SELECT TOP 1 PERS_EXPR_VALU FROM DataGuard.V#Settings) != SUBSTRING(dbo.MiladiTOShamsi(GETDATE()), 1 , 4) + '/12/29'
       ) AND UPPER(SUSER_NAME()) != 'ARTAUSER'
    BEGIN
       RAISERROR(@MesgText, 16, 1);

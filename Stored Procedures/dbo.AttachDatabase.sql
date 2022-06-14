@@ -33,5 +33,20 @@ BEGIN
      WHERE DatabaseServer = 1;
    
    EXEC DataGuard.ReCreateExistsUsers;
+   
+   UPDATE DataGuard.Gateway_Public
+      SET AUTH_TYPE = '002'
+    WHERE COMP_NAME = @ComputerName
+      AND RECT_CODE = '004';
+   
+   UPDATE ug
+      SET ug.VALD_TYPE = '002'
+     FROM DataGuard.Gateway g, DataGuard.User_Gateway ug
+    WHERE g.MAC_ADRS = ug.GTWY_MAC_ADRS;
+   
+   UPDATE a
+      SET a.HOST_NAME = g.MAC_ADRS
+     FROM Global.Access_User_Datasource a, DataGuard.Gateway g
+    WHERE g.COMP_NAME_DNRM = @ComputerName;   
 END
 GO

@@ -27,6 +27,7 @@ CREATE TABLE [DataGuard].[Sub_System]
 [UPLD_FILE_PATH_ADRS] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [SUPR_YEAR_PRIC] [bigint] NULL,
 [RECD_NUMB] [bigint] NULL,
+[EXPR_INST_DATE] [varchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_DATE] [datetime] NULL,
 [MDFY_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -102,6 +103,8 @@ GO
 EXEC sp_addextendedproperty N'MS_Description', N'نرم افزار های کاربردی کاربران برای ورود پیش فرض', 'SCHEMA', N'DataGuard', 'TABLE', N'Sub_System', 'COLUMN', N'DFLT_APP_STRT_STAT'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'نام فایل برنامه', 'SCHEMA', N'DataGuard', 'TABLE', N'Sub_System', 'COLUMN', N'DLL_NAME'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'تاریخ سر رسید پرداخت بدهی', 'SCHEMA', N'DataGuard', 'TABLE', N'Sub_System', 'COLUMN', N'EXPR_INST_DATE'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'مدت زمان دوره اجرای زمان بندی شده', 'SCHEMA', N'DataGuard', 'TABLE', N'Sub_System', 'COLUMN', N'FREQ_INTR'
 GO
