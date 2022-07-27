@@ -36,6 +36,7 @@ BEGIN
 	        Sub_Sys SMALLINT '../../Contacts/@subsys',
 	        Line_Type VARCHAR(3) '../../Contacts/@linetype',
 	        Phon_Numb VARCHAR(11) './@phonnumb',
+	        Chat_Id BIGINT './@chatid',
 	        Msgb_Text NVARCHAR(MAX) './Message/.',
 	        Msgb_Type VARCHAR(3) './Message/@type',
 	        Rfid BIGINT './Message/@rfid',
@@ -49,6 +50,7 @@ BEGIN
         DECLARE @SubSys SMALLINT ,
             @LineType VARCHAR(3) ,
             @PhonNumb VARCHAR(11) ,
+            @ChatId BIGINT,
             @MsgbText NVARCHAR(MAX) ,
             @MsgbType VARCHAR(3) ,
             @Rfid BIGINT ,
@@ -61,7 +63,7 @@ BEGIN
 	
         OPEN C$PrepareSendSms;
         LOOP_C$PrepareSendSms:
-        FETCH NEXT FROM C$PrepareSendSms INTO @SubSys, @LineType, @PhonNumb,
+        FETCH NEXT FROM C$PrepareSendSms INTO @SubSys, @LineType, @PhonNumb, @ChatId,
             @MsgbText, @MsgbType, @Rfid, @ActnDate, @SendType, @ScdlDate,
             @BtchNumb, @StepMin;
 	      
@@ -90,6 +92,7 @@ BEGIN
                       SUB_SYS ,
                       LINE_TYPE ,
                       PHON_NUMB ,
+                      CHAT_ID,
                       MSGB_TEXT ,
                       MSGB_TYPE ,
                       STAT ,
@@ -101,6 +104,7 @@ BEGIN
                       @SubSys , -- SUB_SYS - smallint
                       @LineType , -- Line_Type
                       @PhonNumb , -- PHON_NUMB - varchar(11)
+                      @ChatId , -- CHAT_ID
                       @MsgbText , -- MSGB_TEXT - nvarchar(max)
                       @MsgbType , -- MSGB_TYPE - varchar(3)
                       '001' ,

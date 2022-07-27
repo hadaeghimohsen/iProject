@@ -8,6 +8,7 @@ CREATE TABLE [Msgb].[Sms_Message_Box]
 [KEY1_RFID] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [KEY2_RFID] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PHON_NUMB] [varchar] (11) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CHAT_ID] [bigint] NULL,
 [MSGB_TEXT] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [MSGB_TYPE] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [STAT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL CONSTRAINT [DF_Message_Box_STAT] DEFAULT ('001'),
@@ -19,6 +20,9 @@ CREATE TABLE [Msgb].[Sms_Message_Box]
 [SEND_TYPE] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [BULK_NUMB] [bigint] NULL,
 [PAGE_NUMB_DNRM] [int] NULL,
+[VIST_STAT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[VIST_DATE] [datetime] NULL,
+[VIST_SUB_SYS] [int] NULL,
 [CRET_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_DATE] [datetime] NULL,
 [MDFY_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -85,6 +89,17 @@ BEGIN
             ,T.MESG_LENT = LEN(S.MSGB_TEXT)
             ,T.PAGE_NUMB_DNRM = CASE (LEN(S.MSGB_TEXT) % 70) WHEN 0 THEN LEN(S.MSGB_TEXT) / 70 ELSE (LEN(S.MSGB_TEXT) / 70) + 1 END; 
 
+   
+   -- 1401/03/30 * اگر یکسری پیام ها که درون سیستم داریم نیاز به تکرار مجدد داشته باشند بعد از ارسال مجدد باید دوباره رکورد جدیدی ایجاد شود و دوباره اماده ارسال شوند
+   --INSERT INTO Msgb.Sms_Message_Box 
+   --( SUB_SYS ,LINE_TYPE ,RFID ,KEY1_RFID ,KEY2_RFID ,PHON_NUMB ,MSGB_TEXT ,MSGB_TYPE ,STAT )
+   --SELECT i.SUB_SYS ,i.LINE_TYPE ,i.RFID ,i.KEY1_RFID ,i.KEY2_RFID ,i.PHON_NUMB ,i.MSGB_TEXT ,i.MSGB_TYPE ,'001' 
+   --  FROM Inserted i, Deleted d
+   -- WHERE (i.SUB_SYS = 5 AND i.MSGB_TYPE IN ('041'))
+   --   AND i.STAT != '001'
+   --   AND i.MBID = d.MBID
+   --   AND d.STAT = '001';
+     
 END
 GO
 ALTER TABLE [Msgb].[Sms_Message_Box] ADD CONSTRAINT [PK_SMGB] PRIMARY KEY CLUSTERED  ([MBID]) ON [PRIMARY]
@@ -112,4 +127,10 @@ GO
 EXEC sp_addextendedproperty N'MS_Description', N'نوع ارسالی پیام', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'SEND_TYPE'
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'وضعیت پیام', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'STAT'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'در چه تاریخی ویزیت شده', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'VIST_DATE'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'وضعیت ویزیت رکورد', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'VIST_STAT'
+GO
+EXEC sp_addextendedproperty N'MS_Description', N'توسط چه زیر سیستمی ویزیت شده', 'SCHEMA', N'Msgb', 'TABLE', N'Sms_Message_Box', 'COLUMN', N'VIST_SUB_SYS'
 GO

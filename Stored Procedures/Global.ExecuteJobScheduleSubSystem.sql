@@ -35,7 +35,8 @@ BEGIN
 	
 	IF EXISTS (SELECT name FROM sys.databases WHERE name = N'iProject')
 	BEGIN	   
-	   PRINT 'iProject Job Print';
+	   --PRINT 'iProject Job Print';
+	   EXEC dbo.EXEC_JOBS_P @X = @X -- xml	   
 	END;
 	
 	IF EXISTS (SELECT name FROM sys.databases WHERE name = N'iRoboTech')
