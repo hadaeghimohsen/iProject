@@ -46,8 +46,9 @@ BEGIN
          (SELECT TOP 1 PERS_EXPR_VALU FROM DataGuard.V#Settings) != SUBSTRING(dbo.MiladiTOShamsi(GETDATE()), 1 , 4) + '/12/29'
       ) AND UPPER(SUSER_NAME()) != 'ARTAUSER'
    BEGIN
-      RAISERROR(@MesgText, 16, 1);
-      RETURN;      
+      PRINT 'Welldone';
+      --RAISERROR(@MesgText, 16, 1);
+      --RETURN;      
    END 
    ELSE
    BEGIN

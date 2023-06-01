@@ -24,6 +24,7 @@ BEGIN
 	Declare @IsLock Bit;
 	Declare @GrantToRole Bit;
 	Declare @GrantToPrivilege Bit;
+	DECLARE @JustDef VARCHAR(3);
 	
 	Select
 	   @TitleFa = u.d.query('TitleFa').value('.','nvarchar(max)'),
@@ -32,7 +33,8 @@ BEGIN
 	   @Password = u.d.query('Password').value('.','nvarchar(max)'),
 	   @IsLock = u.d.query('IsLock').value('.','bit'),
 	   @GrantToRole = u.d.query('GrantToRole').value('.','bit'),
-	   @GrantToPrivilege = u.d.query('GrantToPrivilege').value('.','bit')
+	   @GrantToPrivilege = u.d.query('GrantToPrivilege').value('.','bit'),
+	   @JustDef = u.d.query('JustDef').value('.','VARCHAR(3)')
 	From @Xml.nodes('/Duplicate/NewUser') u(d);
 	
 	Declare @Shortcut bigint,
@@ -67,11 +69,12 @@ BEGIN
 	   Where UserID = @UserID;
 	end
 	
-	INSERT INTO Global.Access_User_Datasource
-	        ( USER_ID, DSRC_ID, STAT, STRT_DATE, END_DATE, ACES_TYPE, HOST_NAME )
-	SELECT @NewUserId, DSRC_ID, STAT, STRT_DATE, END_DATE, ACES_TYPE, HOST_NAME
-	  FROM Global.Access_User_Datasource
-	 WHERE USER_ID = @UserID;
+	IF ISNULL(@JustDef, '001') = '001'
+	   INSERT INTO Global.Access_User_Datasource
+	           ( USER_ID, DSRC_ID, STAT, STRT_DATE, END_DATE, ACES_TYPE, HOST_NAME )
+	   SELECT @NewUserId, DSRC_ID, STAT, STRT_DATE, END_DATE, ACES_TYPE, HOST_NAME
+	     FROM Global.Access_User_Datasource
+	    WHERE USER_ID = @UserID;
 	
 	-- Exec Other Database For Duplicate user
 	
@@ -80,12 +83,13 @@ BEGIN
    BEGIN
       DECLARE @sql NVARCHAR(max)
       SET @sql = 'USE master;' +
-                 'CREATE LOGIN ' + @TitleEn + ' WITH PASSWORD = ''' + @PassDB + ''';';                 
+                 'CREATE LOGIN [' + @TitleEn + '] WITH PASSWORD = ''' + @PassDB + ''';';                 
       EXEC (@sql);
       EXEC SYS.SP_ADDSRVROLEMEMBER @loginame = @TitleEn, @rolename = N'sysadmin';
    END
    
    -- Integration Databases
-   EXECUTE dbo.IntegrationSystems;
+   IF ISNULL(@JustDef, '001') = '001'   
+      EXECUTE dbo.IntegrationSystems;
 END
 GO

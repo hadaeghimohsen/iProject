@@ -93,6 +93,8 @@ BEGIN
 	--    EXEC iCRM001.dbo.IntegrationSystems
 	--END
 	
+	PRINT 'FUCK........................'
+	
     IF EXISTS ( SELECT  name
                 FROM    sys.databases
                 WHERE   name = 'iRoboTech' )

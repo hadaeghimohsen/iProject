@@ -31,11 +31,11 @@ BEGIN
          ,@SessionOpenedConnection = x.query('//Session').value('(Session/@count)[1]','INT')
      FROM SETTINGS X;
 
-   IF @ExpireType = 1
-   BEGIN
-      IF NOT(GETDATE() <= @ExpireDate OR (@SessionType = 'limited' AND @SessionOpenedConnection < @SessionMaxConnection))
-         RETURN 0;
-   END
+   --IF @ExpireType = 1
+   --BEGIN
+   --   IF NOT(GETDATE() <= @ExpireDate OR (@SessionType = 'limited' AND @SessionOpenedConnection < @SessionMaxConnection))
+   --      RETURN 0;
+   --END
              
 	Declare @UserName nvarchar(100), @Password nvarchar(max);
 	Declare @UserID bigint;

@@ -91,6 +91,29 @@ BEGIN
 	      --       'PASSWORD=' + (SELECT PASSDB FROM DataGuard.[User] WHERE UPPER(TitleEn) = UPPER(@UserName)) + ';'+
 	      --       'Connection Timeout=1800;';
 	   END
+	   ELSE IF @Dbms = 'SQLSERVERDIRECT'
+	   BEGIN
+	      SELECT @IPAddress = Ds.IPAddress
+               ,@DatabaseName = Ds.[Database]
+               ,@UserName = U.USERDB
+               ,@Password = U.PASSDB
+           FROM DataGuard.[User] U ,
+                Report.DataSource Ds 
+           WHERE UPPER(U.TitleEn) = UPPER(@UserName)
+             AND UPPER(Ds.Database_Alias) = UPPER(@DatabaseName);
+         
+         RETURN 'SERVER=' + @IPAddress + ';' +
+	             'DATABASE=' + @DatabaseName + ';' + 
+	             'USER ID=' + @UserName + ';'+ 
+	             'PASSWORD=' + @Password + ';'+
+	             'Connection Timeout=18000;';
+           
+	      --RETURN 'SERVER=' + (SELECT IPADDRESS FROM Report.DataSource WHERE UPPER([Database]) = UPPER(@DatabaseName)) + ';' +
+	      --       'DATABASE=' + @DatabaseName + ';' + 
+	      --       'USER ID=' + (SELECT USERDB FROM DataGuard.[User] WHERE UPPER(TitleEn) = UPPER(@UserName)) + ';'+ 
+	      --       'PASSWORD=' + (SELECT PASSDB FROM DataGuard.[User] WHERE UPPER(TitleEn) = UPPER(@UserName)) + ';'+
+	      --       'Connection Timeout=1800;';
+	   END
 	   ELSE IF @Dbms = 'SQLSERVERACTIVEDBNAME' -- Sql Server Active db Name
 	   BEGIN
 	      SELECT @DatabaseName = Ds.[Database]
