@@ -69,7 +69,7 @@ BEGIN
 	   Where UserID = @UserID;
 	end
 	
-	IF ISNULL(@JustDef, '001') = '001'
+	IF ISNULL(@JustDef, '001') = '001' OR @JustDef = ''
 	   INSERT INTO Global.Access_User_Datasource
 	           ( USER_ID, DSRC_ID, STAT, STRT_DATE, END_DATE, ACES_TYPE, HOST_NAME )
 	   SELECT @NewUserId, DSRC_ID, STAT, STRT_DATE, END_DATE, ACES_TYPE, HOST_NAME

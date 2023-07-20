@@ -40,6 +40,7 @@ CREATE TABLE [DataGuard].[User]
 [REGN_LANG] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [RTL_STAT] [varchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PIN_CODE] [int] NULL,
+[CMNT] [nvarchar] (500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CRET_DATE] [datetime] NULL,
 [MDFY_BY] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
