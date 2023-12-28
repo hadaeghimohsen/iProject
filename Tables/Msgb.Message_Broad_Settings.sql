@@ -84,7 +84,10 @@ BEGIN
    WHEN MATCHED THEN
       UPDATE 
          SET MDFY_BY = UPPER(SUSER_NAME())
-            ,MDFY_DATE = GETDATE();
+            ,MDFY_DATE = GETDATE()
+            ,SLEP_INTR = ISNULL(S.SLEP_INTR, 10000)
+            ,PING_IP_ADRS = ISNULL(s.PING_IP_ADRS, '8.8.8.8')
+            ,WEB_SITE = CASE s.SERV_TYPE WHEN '002' THEN 'https://login.inoti.com/Login/' ELSE S.WEB_SITE END;
 END
 GO
 ALTER TABLE [Msgb].[Message_Broad_Settings] ADD CONSTRAINT [PK_Message_Broad_Settings] PRIMARY KEY CLUSTERED  ([MBID]) ON [PRIMARY]
