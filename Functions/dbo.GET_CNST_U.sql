@@ -83,7 +83,7 @@ BEGIN
 	             'DATABASE=' + @DatabaseName + ';' + 
 	             'USER ID=' + @UserName + ';'+ 
 	             'PASSWORD=' + @Password + ';'+
-	             'Connection Timeout=18000;';
+	             'Connection Timeout=18000;MultipleActiveResultSets=true;';
            
 	      --RETURN 'SERVER=' + (SELECT IPADDRESS FROM Report.DataSource WHERE UPPER([Database]) = UPPER(@DatabaseName)) + ';' +
 	      --       'DATABASE=' + @DatabaseName + ';' + 
@@ -106,7 +106,7 @@ BEGIN
 	             'DATABASE=' + @DatabaseName + ';' + 
 	             'USER ID=' + @UserName + ';'+ 
 	             'PASSWORD=' + @Password + ';'+
-	             'Connection Timeout=18000;';
+	             'Connection Timeout=18000;MultipleActiveResultSets=true;';
            
 	      --RETURN 'SERVER=' + (SELECT IPADDRESS FROM Report.DataSource WHERE UPPER([Database]) = UPPER(@DatabaseName)) + ';' +
 	      --       'DATABASE=' + @DatabaseName + ';' + 
