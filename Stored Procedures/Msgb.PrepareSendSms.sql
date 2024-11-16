@@ -14,17 +14,17 @@ AS
 BEGIN
     BEGIN TRY 
         BEGIN TRAN T_PrepareSendSms;
-	-- در اینجا باید چک کنیم که قبلا برای شماره تلفن مورد نظر 
-	-- پیام قبلا در این روز ارسال نشده است که جلو دوباره کاری را بگیریم
-	/*
-	<Process>
-	   <Contacts subsys="" linetype="">
-	      <Contact phonnumb="">
-	         <Message type="">TextMessage</Message>
-	      </Contact>
-	   </Contacts>
-	</Process>
-	*/
+	      -- در اینجا باید چک کنیم که قبلا برای شماره تلفن مورد نظر 
+	      -- پیام قبلا در این روز ارسال نشده است که جلو دوباره کاری را بگیریم
+	      /*
+	      <Process>
+	         <Contacts subsys="" linetype="">
+	            <Contact phonnumb="">
+	               <Message type="">TextMessage</Message>
+	            </Contact>
+	         </Contacts>
+	      </Process>
+	      */
         DECLARE @docHandle INT;	
         EXEC sp_xml_preparedocument @docHandle OUTPUT, @X;
 	
@@ -59,7 +59,8 @@ BEGIN
             @ScdlDate DATETIME,
             @BtchNumb INT,
             @StepMin INT,
-            @i INT = 0;
+            @i INT = 0,
+            @Xtemp XML;
 	
         OPEN C$PrepareSendSms;
         LOOP_C$PrepareSendSms:
@@ -73,9 +74,43 @@ BEGIN
         IF @PhonNumb IS NULL
             GOTO LOOP_C$PrepareSendSms;
         
-        -- 1398/07/05 * زمان بندی کردن پیامکهای ارسالی
+        -- 1403/06/03 * IF EXISTS Grouping Permission CANNOT SEND SMS
+        IF @SubSys = 5 /* Arta System */ AND
+           EXISTS (
+                SELECT *
+                  FROM iScsc.dbo.Fighter f,
+                       iScsc.dbo.Fighter_Grouping fg,
+                       iScsc.dbo.Fighter_Grouping_Permission gp
+                 WHERE f.FILE_NO = fg.FIGH_FILE_NO
+                   AND fg.CODE = gp.FGRP_CODE
+                   AND @PhonNumb IN (f.CELL_PHON_DNRM)
+                   AND fg.GROP_STAT = '002'
+                   AND gp.PERM_TYPE = '005' -- SMS
+                   AND gp.PERM_STAT = '001' -- NO PERMISSION
+           )
+        BEGIN
+           -- 1403/06/03 * Save log in db for not save and send sms for customer
+           SET @Xtemp = (
+              SELECT TOP 1 
+                     f.FILE_NO AS '@fileno',
+                     '017' AS '@type',
+                     @MsgbText AS '@text'
+                FROM iScsc.dbo.Fighter f,
+                     iScsc.dbo.Fighter_Grouping fg,
+                     iScsc.dbo.Fighter_Grouping_Permission gp
+               WHERE f.FILE_NO = fg.FIGH_FILE_NO
+                 AND fg.CODE = gp.FGRP_CODE
+                 AND @PhonNumb IN (f.CELL_PHON_DNRM)
+                 AND fg.GROP_STAT = '002'
+                 AND gp.PERM_TYPE = '005' -- SMS
+                 AND gp.PERM_STAT = '001' -- NO PERMISSION
+                 FOR XML PATH('Log'));              
+           EXEC iScsc.dbo.INS_LGOP_P @X = @Xtemp -- xml
+           
+           GOTO LOOP_C$PrepareSendSms;
+        END
         
-	
+        -- 1398/07/05 * زمان بندی کردن پیامکهای ارسالی
         IF NOT EXISTS ( SELECT  *
                         FROM    Msgb.Sms_Message_Box
                         WHERE   SUB_SYS = @SubSys

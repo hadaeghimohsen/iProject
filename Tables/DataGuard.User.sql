@@ -73,6 +73,12 @@ BEGIN
       UPDATE SET
          T.CRET_BY = UPPER(SUSER_NAME())
         ,T.CRET_DATE = GETDATE();
+   
+   -- Add User in database must grant to pos
+   IF EXISTS (SELECT * FROM Global.Pos_Device)
+   BEGIN
+      UPDATE Global.Pos_Device SET POS_STAT = POS_STAT;
+   END 
 END
 GO
 SET QUOTED_IDENTIFIER ON

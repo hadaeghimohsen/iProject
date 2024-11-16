@@ -45,8 +45,8 @@ BEGIN
 	Select @Shortcut = MAX(Shortcut) + 1
 	from DataGuard.[User] ;
 	
-	Insert Into DataGuard.[User] (ShortCut, TitleFa, TitleEn, STitleEn, Password, IsLock, USERDB, PASSDB, MUST_CHNG_PASS, DFLT_FACT, FRST_LOGN, PLCY_FORC_SAFE_ENTR, PASS_MDFY_DATE, ADD_COMP_LIST)
-	values(@Shortcut, @TitleFa, @TitleEn, @STitleEn, @Password, @IsLock, @TitleEn, @PassDB, '002', '001', '002', '002', GETDATE(), '002');
+	Insert Into DataGuard.[User] (ShortCut, TitleFa, TitleEn, STitleEn, Password, IsLock, USERDB, PASSDB, MUST_CHNG_PASS, DFLT_FACT, FRST_LOGN, PLCY_FORC_SAFE_ENTR, PASS_MDFY_DATE, ADD_COMP_LIST, SHOW_LOGN_FORM)
+	values(@Shortcut, @TitleFa, @TitleEn, @STitleEn, @Password, @IsLock, @TitleEn, @PassDB, '002', '001', '002', '002', GETDATE(), '002', '002');
 	
 	Declare @NewUserId bigint;
 	Select @NewUserId = u.ID
