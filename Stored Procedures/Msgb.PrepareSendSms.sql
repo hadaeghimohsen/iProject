@@ -85,7 +85,7 @@ BEGIN
                    AND fg.CODE = gp.FGRP_CODE
                    AND @PhonNumb IN (f.CELL_PHON_DNRM)
                    AND fg.GROP_STAT = '002'
-                   AND gp.PERM_TYPE = '005' -- SMS
+                   AND gp.PERM_TYPE = '004' -- SMS
                    AND gp.PERM_STAT = '001' -- NO PERMISSION
            )
         BEGIN
@@ -102,7 +102,7 @@ BEGIN
                  AND fg.CODE = gp.FGRP_CODE
                  AND @PhonNumb IN (f.CELL_PHON_DNRM)
                  AND fg.GROP_STAT = '002'
-                 AND gp.PERM_TYPE = '005' -- SMS
+                 AND gp.PERM_TYPE = '004' -- SMS
                  AND gp.PERM_STAT = '001' -- NO PERMISSION
                  FOR XML PATH('Log'));              
            EXEC iScsc.dbo.INS_LGOP_P @X = @Xtemp -- xml
